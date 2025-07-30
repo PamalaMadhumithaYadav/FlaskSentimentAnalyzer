@@ -154,6 +154,3 @@ The model was trained on the `Restaurant_Reviews.tsv` dataset.
     ```
 
 <!-- end list -->
-
-```
-```
