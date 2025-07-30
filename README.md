@@ -1,5 +1,4 @@
-
-# FlaskSentimentAnalyzer
+## FlaskSentimentAnalyzer
 This project implements a web-based sentiment analyzer for restaurant reviews using a Flask backend and a scikit-learn machine learning model. Users can enter a restaurant review into a text area, and the application will predict whether the sentiment of the review is "Positive" or "Negative". It also displays a confidence score for the prediction.
 
 
@@ -35,9 +34,6 @@ FlaskSentimentAnalyzer/
 └── templates/
 └── index.html
 ```
-
-````
-
 * `app.py`: The main Flask application that serves the web pages and handles sentiment prediction requests.
 * `Restaurant_Reviews.tsv`: The dataset of restaurant reviews used for training and testing the sentiment model.
 * `sentiment_model.pkl`: The pre-trained machine learning model pipeline.
