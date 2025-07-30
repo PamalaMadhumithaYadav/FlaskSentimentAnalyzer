@@ -22,7 +22,7 @@ This project implements a web-based sentiment analyzer for restaurant reviews us
 ## Project Structure
 
 
-
+```
 FlaskSentimentAnalyzer/
 ├── app.py
 ├── Restaurant\_Reviews.tsv
@@ -34,6 +34,7 @@ FlaskSentimentAnalyzer/
 │   └── script.js
 └── templates/
 └── index.html
+```
 
 ````
 
