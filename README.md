@@ -1,23 +1,41 @@
-## FlaskSentimentAnalyzer
+## 🍽️ Restaurant Review Sentiment Analyzer
 This project implements a web-based sentiment analyzer for restaurant reviews using a Flask backend and a scikit-learn machine learning model. Users can enter a restaurant review into a text area, and the application will predict whether the sentiment of the review is "Positive" or "Negative". It also displays a confidence score for the prediction.
 
-## Features
+## 📸 Preview
+<table border="0">
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/50add2c3-fd0a-49c5-913b-3158be824ffa" width="100%">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/cc4141a0-86f6-499a-a677-a48fb0b98067" width="100%">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/734231a2-afdd-43cd-b738-3c5a805e1f80" width="100%">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/f2eae6c6-c665-48b0-8aff-084126b2e16a" width="100%">
+    </td>
+  </tr>
+</table>
+
+
+## 🚀 Key Features
 
 * **Interactive Web Interface**: User-friendly front-end for submitting reviews.
 * **Real-time Sentiment Analysis**: Get instant sentiment predictions for your text.
 * **Confidence Score**: Understand the model's certainty about its prediction.
 * **Scalable Backend**: Built with Flask to handle review submissions and return results.
 
-## Technologies Used
-
-* Python 3
-* Flask
-* scikit-learn
-* NLTK
-* Pandas
-* HTML, CSS, JavaScript
-
-## Project Structure
+## 🛠️ Tech Stack
+* Backend: Python, Flask
+* Machine Learning: Scikit-Learn, Pandas, NumPy
+* NLP: NLTK
+* Frontend: HTML5, CSS3, JavaScript (AJAX)
+ 
+## 📂 Project Structure
 
 ```
 FlaskSentimentAnalyzer/
@@ -43,7 +61,7 @@ FlaskSentimentAnalyzer/
 * `templates/`: Contains HTML template files.
     * `index.html`: The main HTML page for the sentiment analyzer.
 
-## Setup and Installation
+## ⚙️ Setup and Installation
 
 Follow these steps to set up and run the project locally:
 
@@ -111,14 +129,14 @@ python app.py
 
 The application will start, and you can access it in your web browser at `http://127.0.0.1:5001/` (or `http://localhost:5001/`).
 
-## Usage
+## 🕹️ Usage
 
 1.  Open your web browser and navigate to `http://127.0.0.1:5001/`.
 2.  Enter a restaurant review into the provided text area.
 3.  Click the "Analyze Sentiment" button.
 4.  The application will display the predicted sentiment (Positive or Negative) and a confidence score.
 
-## Model Details (from `restaurentreview.ipynb`)
+## 🤖 Model Details (from `restaurentreview.ipynb`)
 
 The sentiment analysis model is a pipeline that consists of:
 
@@ -127,7 +145,7 @@ The sentiment analysis model is a pipeline that consists of:
 
 The model was trained on the `Restaurant_Reviews.tsv` dataset.
 
-### Evaluation Metrics (example from notebook output):
+### 📊 Evaluation Metrics (example from notebook output):
 
 *(Note: These values are from a specific training run and may vary slightly upon re-training.)*
 
