@@ -1,4 +1,13 @@
 ## 🍽️ Restaurant Review Sentiment Analyzer
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)
+![NLTK](https://img.shields.io/badge/NLTK-blue?style=for-the-badge)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+
 This project implements a web-based sentiment analyzer for restaurant reviews using a Flask backend and a scikit-learn machine learning model. Users can enter a restaurant review into a text area, and the application will predict whether the sentiment of the review is "Positive" or "Negative". It also displays a confidence score for the prediction.
 
 ## 📸 Preview
