@@ -1,12 +1,24 @@
 from flask import Flask, request, jsonify, render_template
-import joblib
+import torch
+from transformers import BertTokenizer, BertForSequenceClassification
+import torch.nn.functional as F
 
 app = Flask(__name__)
 
-# Load the trained model pipeline
-print("Loading model pipeline...")
-model = joblib.load('sentiment_model.pkl')
-print("Model loaded.")
+# Load the trained model and tokenizer
+print("Loading BERT model and tokenizer...")
+output_dir = './model_bert/'
+try:
+    model = BertForSequenceClassification.from_pretrained(output_dir)
+    tokenizer = BertTokenizer.from_pretrained(output_dir)
+    device = torch.device("mps") if torch.backends.mps.is_available() else (torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu"))
+    model.to(device)
+    model.eval()
+    print(f"Model loaded on {device}.")
+except Exception as e:
+    print(f"Error loading model: {e}")
+    model = None
+    tokenizer = None
 
 @app.route('/')
 def home():
@@ -16,16 +28,38 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     """Receives review text and returns prediction as JSON."""
+    if not model or not tokenizer:
+        return jsonify({'error': 'Model not loaded'}), 500
+
     data = request.get_json(force=True)
     review_text = data['review']
     
-    # The pipeline expects a list of documents
-    prediction = model.predict([review_text])
-    # Get probabilities for [negative, positive] classes
-    probabilities = model.predict_proba([review_text])[0]
+    # Tokenize input
+    encoded_dict = tokenizer.encode_plus(
+        review_text,
+        add_special_tokens=True,
+        max_length=128,
+        padding='max_length',
+        return_attention_mask=True,
+        return_tensors='pt',
+        truncation=True
+    )
     
-    sentiment = 'Positive' if prediction[0] == 1 else 'Negative'
-    confidence = probabilities[1] if sentiment == 'Positive' else probabilities[0]
+    input_ids = encoded_dict['input_ids'].to(device)
+    attention_mask = encoded_dict['attention_mask'].to(device)
+    
+    # Predict
+    with torch.no_grad():
+        outputs = model(input_ids, token_type_ids=None, attention_mask=attention_mask)
+        logits = outputs.logits
+        
+    # Apply softmax to get probabilities
+    probabilities = F.softmax(logits, dim=1).cpu().numpy()[0]
+    
+    # Get sentiment (0: Negative, 1: Positive)
+    predicted_class = torch.argmax(logits, dim=1).cpu().numpy()[0]
+    sentiment = 'Positive' if predicted_class == 1 else 'Negative'
+    confidence = probabilities[predicted_class]
 
     return jsonify({
         'sentiment': sentiment,
