@@ -160,11 +160,11 @@ The project also includes a baseline model for comparison:
 
 *(Note: These values are from the BERT model training.)*
 
-  * **Accuracy**: 0.91
+  * **Accuracy**: 0.94
   * **Confusion Matrix**:
     ```
     [[96  0]
-     [18 86]]
+     [12 92]]
     ```
       * True Negatives: 96
       * False Positives: 0
@@ -174,12 +174,12 @@ The project also includes a baseline model for comparison:
     ```
                   precision    recall  f1-score   support
 
-        Negative       0.84      1.00      0.91        96
-        Positive       1.00      0.83      0.91       104
+        Negative       0.89      1.00      0.94        96
+        Positive       1.00      0.88      0.94       104
 
-        accuracy                           0.91       200
-       macro avg       0.92      0.91      0.91       200
-    weighted avg       0.92      0.91      0.91       200
+        accuracy                           0.94       200
+       macro avg       0.94      0.94      0.94       200
+    weighted avg       0.95      0.94      0.94       200
     ```
 
 <!-- end list -->
