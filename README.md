@@ -8,7 +8,7 @@
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 
-This project implements a web-based sentiment analyzer for restaurant reviews using a Flask backend and a scikit-learn machine learning model. Users can enter a restaurant review into a text area, and the application will predict whether the sentiment of the review is "Positive" or "Negative". It also displays a confidence score for the prediction.
+This project implements a web-based sentiment analyzer for restaurant reviews using a Flask backend. It primarily uses a **BERT (Bidirectional Encoder Representations from Transformers)** model for high-accuracy sentiment prediction, with a legacy **Naive Bayes** model available as a baseline. Users can enter a restaurant review into a text area, and the application will predict whether the sentiment of the review is "Positive" or "Negative".
 
 ## 📸 Preview
 <table border="0">
@@ -40,7 +40,8 @@ This project implements a web-based sentiment analyzer for restaurant reviews us
 
 ## 🛠️ Tech Stack
 * Backend: Python, Flask
-* Machine Learning: Scikit-Learn, Pandas, NumPy
+* Deep Learning: PyTorch, Transformers (Hugging Face)
+* Machine Learning (Baseline): Scikit-Learn, Pandas, NumPy
 * NLP: NLTK
 * Frontend: HTML5, CSS3, JavaScript (AJAX)
  
@@ -49,10 +50,11 @@ This project implements a web-based sentiment analyzer for restaurant reviews us
 ```
 FlaskSentimentAnalyzer/
 ├── app.py
-├── Restaurant\_Reviews.tsv
-├── sentiment\_model.pkl
-├── .gitignore
-├── restaurentreview.ipynb
+├── Restaurant_Reviews.tsv
+├── sentiment_model_bert.pkl
+├── model_bert/
+├── restaurentreview_bert.ipynb
+├── restaurentreview.ipynb (Baseline)
 ├── static/
 │   ├── style.css
 │   └── script.js
@@ -103,7 +105,7 @@ python -m venv venv
 You'll need to install the required Python packages. If you don't have a `requirements.txt` file, you can install them manually:
 
 ```bash
-pip install Flask scikit-learn pandas nltk joblib
+pip install Flask torch transformers scikit-learn pandas nltk joblib
 ```
 
 ### 5\. Download NLTK Data
@@ -116,19 +118,15 @@ import nltk
 nltk.download('stopwords')
 ```
 
-### 6\. Train the Sentiment Model (if `sentiment_model.pkl` is not present or you want to retrain)
+### 6. Train the Model
 
-The `sentiment_model.pkl` file is provided, but if you need to retrain or understand the training process, run the `restaurentreview.ipynb` Jupyter Notebook.
+#### Primary: BERT Model
+If you need to retrain the BERT model, run the `restaurentreview_bert.ipynb` notebook.
+1.  Open `restaurentreview_bert.ipynb` in Jupyter.
+2.  Run all cells to fine-tune the BERT model and save the artifacts to `model_bert/` and `sentiment_model_bert.pkl`.
 
-  * Install Jupyter (if you don't have it):
-    ```bash
-    pip install jupyter
-    ```
-  * Start Jupyter Notebook:
-    ```bash
-    jupyter notebook
-    ```
-  * Open `restaurentreview.ipynb` and run all cells. This will generate the `sentiment_model.pkl` file.
+#### Baseline: Naive Bayes
+To train the baseline Scikit-Learn model, run `restaurentreview.ipynb`.
 
 ### 7\. Run the Flask Application
 
@@ -145,39 +143,43 @@ The application will start, and you can access it in your web browser at `http:/
 3.  Click the "Analyze Sentiment" button.
 4.  The application will display the predicted sentiment (Positive or Negative) and a confidence score.
 
-## 🤖 Model Details (from `restaurentreview.ipynb`)
+## 🤖 Model Details
 
-The sentiment analysis model is a pipeline that consists of:
+### Primary Model: BERT
+The application uses a fine-tuned **BERT (Bidirectional Encoder Representations from Transformers)** model for sentiment classification.
+*   **Architecture**: `BertForSequenceClassification` from the Hugging Face Transformers library.
+*   **Tokenizer**: `BertTokenizer` for preprocessing text.
+*   **Training**: Fine-tuned on the `Restaurant_Reviews.tsv` dataset.
 
-  * **TF-IDF Vectorizer**: Converts text data into numerical representations. It's configured to use a maximum of 1500 features and considers both unigrams and bigrams (`ngram_range=(1, 2)`).
-  * **Multinomial Naive Bayes Classifier**: A probabilistic classifier suitable for text classification tasks.
+### Baseline Model: Naive Bayes (Legacy)
+The project also includes a baseline model for comparison:
+*   **TF-IDF Vectorizer**: `ngram_range=(1, 2)`, max 1500 features.
+*   **Classifier**: Multinomial Naive Bayes.
 
-The model was trained on the `Restaurant_Reviews.tsv` dataset.
+### 📊 Evaluation Metrics
 
-### 📊 Evaluation Metrics (example from notebook output):
+*(Note: These values are from the BERT model training.)*
 
-*(Note: These values are from a specific training run and may vary slightly upon re-training.)*
-
-  * **Accuracy**: \~0.80
+  * **Accuracy**: 0.91
   * **Confusion Matrix**:
     ```
-    [[83 13]
-     [27 77]]
+    [[96  0]
+     [18 86]]
     ```
-      * True Negatives: 83
-      * False Positives: 13
-      * False Negatives: 27
-      * True Positives: 77
+      * True Negatives: 96
+      * False Positives: 0
+      * False Negatives: 18
+      * True Positives: 86
   * **Classification Report**:
     ```
                   precision    recall  f1-score   support
 
-        Negative       0.75      0.86      0.81        96
-        Positive       0.86      0.74      0.79       104
+        Negative       0.84      1.00      0.91        96
+        Positive       1.00      0.83      0.91       104
 
-        accuracy                           0.80       200
-       macro avg       0.81      0.80      0.80       200
-    weighted avg       0.81      0.80      0.80       200
+        accuracy                           0.91       200
+       macro avg       0.92      0.91      0.91       200
+    weighted avg       0.92      0.91      0.91       200
     ```
 
 <!-- end list -->
